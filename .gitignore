@@ -1,0 +1,15 @@
+.vercel
+.DS_Store
+Thumbs.db
+.claude/
+
+# artefactos de edicion del sello (frames y binarios pesados)
+_src/in/
+_src/out/
+_src/*.png
+_src/*.jpg
+_src/*.mp4
+_src/*.ttf
+_src/__pycache__/
+_src/*.mp3
+_src/*.npy
