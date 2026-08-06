@@ -13,3 +13,5 @@ _src/*.ttf
 _src/__pycache__/
 _src/*.mp3
 _src/*.npy
+
+.env*
