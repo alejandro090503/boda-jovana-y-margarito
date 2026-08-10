@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <!-- Barra del navegador fundida con el diseño (color exacto que toca la barra, se actualiza por JS al abrir y por sección) -->
+  <meta name="format-detection" content="telephone=no">
   <meta name="theme-color" content="#a89988" id="themeColor">
   <!-- Modo inmersivo tipo app al guardar en inicio -->
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -221,23 +222,89 @@ section{padding:64px 22px}
 /* ── MUSIC BTN ────────────────────────────────────────── */
 .music-btn{
   position:fixed;
-  bottom:calc(22px + env(safe-area-inset-bottom));
-  right:calc(22px + env(safe-area-inset-right));
-  width:46px;height:46px;
-  border-radius:50%;background:rgba(255,255,255,.85);
-  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
-  border:1px solid var(--gold);color:var(--gold);font-size:18px;
-  display:flex;align-items:center;justify-content:center;
-  cursor:pointer;z-index:999;
-  box-shadow:0 4px 24px rgba(0,0,0,.45);
-  transition:all .3s var(--spring);
+  bottom:calc(16px + env(safe-area-inset-bottom));
+  right:calc(14px + env(safe-area-inset-right));
+  z-index:999;
+  width:58px;height:58px;border-radius:50%;padding:0;border:none;
+  background:transparent;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+  transition:transform .35s var(--spring);
+  box-shadow:0 4px 18px rgba(0,0,0,.45),0 0 0 1px rgba(169,104,0,.2);
 }
-.music-btn:active{transform:scale(.88)}
-.music-btn.on{border-color:var(--gold);background:rgba(169,104,0,.14);
-  animation:pulse 2s ease-in-out infinite}
-@keyframes pulse{
-  0%,100%{box-shadow:0 0 0 0 rgba(169,104,0,.35),0 4px 24px rgba(0,0,0,.45)}
-  50%{box-shadow:0 0 0 9px rgba(169,104,0,0),0 4px 24px rgba(0,0,0,.45)}
+.music-btn:active{transform:scale(.9)}
+.vinyl-spin{display:block;width:100%;height:100%;border-radius:50%;position:relative;animation:vinylSpin 9s linear infinite}
+.music-btn.on .vinyl-spin{animation-duration:1.15s}
+@keyframes vinylSpin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.vinyl-spin{animation:none}}
+.vinyl-disc{
+  display:block;width:100%;height:100%;border-radius:50%;overflow:hidden;position:relative;
+  background:
+    radial-gradient(circle,#0d1000 4%,transparent 4.5%),
+    radial-gradient(circle,#d9a33c 0%,var(--gold) 17%,#7a4b00 19%,transparent 19.5%),
+    repeating-radial-gradient(circle,
+      transparent 20%,rgba(255,255,255,.055) 20.8%,transparent 21.5%,
+      transparent 24%,rgba(255,255,255,.04) 24.8%,transparent 25.5%,
+      transparent 28%,rgba(255,255,255,.055) 28.8%,transparent 29.5%,
+      transparent 32%,rgba(255,255,255,.04) 32.8%,transparent 33.5%,
+      transparent 36%,rgba(255,255,255,.055) 36.8%,transparent 37.5%,
+      transparent 40%,rgba(255,255,255,.04) 40.8%,transparent 41.5%,
+      transparent 44%,rgba(255,255,255,.055) 44.8%,transparent 45.5%,
+      transparent 48%,rgba(255,255,255,.04) 48.8%,transparent 49.5%,
+      transparent 52%,rgba(255,255,255,.055) 52.8%,transparent 53.5%,
+      transparent 56%,rgba(255,255,255,.04) 56.8%,transparent 57.5%,
+      transparent 60%,rgba(255,255,255,.055) 60.8%,transparent 61.5%,
+      transparent 64%,rgba(255,255,255,.04) 64.8%,transparent 65.5%,
+      transparent 68%,rgba(255,255,255,.055) 68.8%,transparent 69.5%,
+      transparent 72%,rgba(255,255,255,.04) 72.8%,transparent 73.5%,
+      transparent 76%,rgba(255,255,255,.055) 76.8%,transparent 77.5%,
+      transparent 80%,rgba(255,255,255,.04) 80.8%,transparent 81.5%,
+      transparent 84%,rgba(255,255,255,.055) 84.8%,transparent 85.5%,
+      transparent 88%,rgba(255,255,255,.04) 88.8%,transparent 89.5%,
+      transparent 92%,rgba(255,255,255,.055) 92.8%,transparent 93.5%,
+      transparent 96%,rgba(255,255,255,.04) 96.8%,transparent 97.5%
+    ),
+    radial-gradient(circle,#0d1000 0%,#0d1000 60%,#0d1000 100%);
+  box-shadow:inset 0 0 8px rgba(0,0,0,.4);
+}
+.vinyl-sheen{
+  display:block;position:absolute;inset:0;border-radius:50%;pointer-events:none;
+  background:linear-gradient(135deg,transparent 30%,rgba(255,255,255,.09) 42%,rgba(255,255,255,.15) 48%,rgba(255,255,255,.09) 54%,transparent 66%);
+}
+.vinyl-label-text{
+  display:block;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  font-family:'Great Vibes',cursive;font-size:12px;color:#3d2600;
+  text-align:center;line-height:1.05;opacity:.85;pointer-events:none;width:28px;
+}
+.vinyl-label-text small{font-family:'Cormorant Garamond',serif;font-size:5px;font-weight:600;letter-spacing:.14em;display:block;margin-top:0;opacity:.7}
+.vinyl-hole{
+  display:block;position:absolute;top:50%;left:50%;width:6px;height:6px;
+  transform:translate(-50%,-50%);border-radius:50%;
+  background:var(--olive-accent);box-shadow:0 0 0 1.5px rgba(169,104,0,.45);
+}
+.music-btn::after{
+  content:"";position:absolute;inset:-5px;border-radius:50%;
+  border:1px solid var(--gold);opacity:.3;
+  animation:vinylPulse 3s ease-in-out infinite;
+}
+.music-btn.on::after{animation-duration:1.15s}
+@keyframes vinylPulse{0%,100%{transform:scale(1);opacity:.3}50%{transform:scale(1.12);opacity:.05}}
+.vinyl-tonearm{
+  display:block;position:absolute;top:-4px;right:-2px;width:19px;height:27px;
+  transform-origin:top right;transform:rotate(-28deg);
+  transition:transform .6s var(--spring);pointer-events:none;z-index:1;
+}
+.music-btn.on .vinyl-tonearm{transform:rotate(-12deg)}
+.vinyl-tonearm-line{
+  display:block;position:absolute;top:2px;right:4px;width:2px;height:22px;
+  background:linear-gradient(to bottom,#7a4b00,var(--gold) 40%,#7a4b00);
+  border-radius:1px;transform:rotate(-5deg);transform-origin:top center;
+}
+.vinyl-tonearm-head{display:block;position:absolute;bottom:0;right:2px;width:5px;height:6px;background:var(--gold);border-radius:0 0 2px 2px}
+.vinyl-tonearm-pivot{
+  display:block;position:absolute;top:0;right:2px;width:7px;height:7px;
+  background:radial-gradient(circle,#d9a33c,#7a4b00);border-radius:50%;
+  box-shadow:0 1px 3px rgba(0,0,0,.3);
+}
 }
 
 /* ── TOAST ────────────────────────────────────────────── */
@@ -1675,7 +1742,7 @@ section.has-sec-waves{padding-top:84px;padding-bottom:86px}
 
 /* ── MUSIC BTN SPRING ─────────────────────────────────── */
 .music-btn{transition:all .35s cubic-bezier(.34,1.56,.64,1)!important}
-.music-btn:hover{transform:scale(1.18)!important;border-color:var(--olive)!important}
+.music-btn:hover{transform:scale(1.08)!important}
 
 /* ── REDUCED MOTION ───────────────────────────────────── */
 @media(prefers-reduced-motion:reduce){
@@ -2137,6 +2204,75 @@ section.has-sec-waves{padding-top:84px;padding-bottom:86px}
 .btn.gf-copy{font-size:13px}
 /* el blanco sobre el dorado medio del CTA no llegaba a 4.5:1 */
 .rsvp-btn{background:linear-gradient(135deg,#8a5600 0%,#a96800 50%,#7a4b00 100%)}
+
+/* -- MESA DE REGALOS: caja que se abre con confeti -------
+   Mismo componente que venimos usando en las invitaciones recientes.     */
+.gbx{position:relative;text-align:center;margin-top:6px}
+.gbx-present{width:150px;height:150px;margin:0 auto;display:block;padding:0;border:none;background:none;cursor:pointer;position:relative;-webkit-tap-highlight-color:transparent}
+.gbx-present svg{width:100%;height:100%;display:block;transform-origin:50% 100%}
+.gbx-lid{transform-origin:50% 100%;transition:transform .5s var(--spring)}
+.gbx-present.shake{animation:gbxShake .5s ease-in-out}
+@keyframes gbxShake{0%,100%{transform:rotate(0)}15%{transform:rotate(-5deg)}30%{transform:rotate(4deg)}45%{transform:rotate(-3deg)}60%{transform:rotate(2deg)}75%{transform:rotate(-1deg)}}
+.gbx.opened .gbx-present{animation:gbxTopple .7s cubic-bezier(.6,-.2,.7,1) forwards;pointer-events:none}
+@keyframes gbxTopple{0%{transform:scale(1);opacity:1}40%{transform:scale(1.06)}100%{transform:scale(.86) translateY(-12px);opacity:0}}
+.gbx.opened .gbx-lid{transform:translateY(-30px) rotate(-18deg)}
+.gbx-tap{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;letter-spacing:1px;color:var(--gold-dark);opacity:.95;margin-top:10px;transition:opacity .3s,max-height .3s;overflow:hidden}
+.gbx.opened .gbx-tap{opacity:0;max-height:0;margin:0}
+.gbx-confetti{position:absolute;top:38%;left:50%;width:0;height:0;pointer-events:none;z-index:10}
+.gbx-confetti-piece{position:absolute;opacity:0}
+.gift-links{margin-top:18px}
+
+/* -- LLUVIA DE SOBRES: sobre que se abre al tocarlo ----- */
+.env-wrap{margin:34px auto 0;display:flex;flex-direction:column;align-items:center}
+.env-interactive{display:flex;flex-direction:column;align-items:center;cursor:pointer;-webkit-tap-highlight-color:transparent;outline:none;border:none;background:none;padding:0}
+.env-body{perspective:700px;position:relative;width:260px;height:200px;animation:envBreathe 3.6s ease-in-out infinite}
+@keyframes envBreathe{0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}
+.env-body svg.env-svg{width:100%;height:100%}
+.env-flap-wrap{position:absolute;top:46px;left:18px;width:224px;height:86px;transform-origin:top center;transform-style:preserve-3d;backface-visibility:hidden;-webkit-backface-visibility:hidden;transition:transform .65s cubic-bezier(.4,0,.2,1);pointer-events:none;z-index:2}
+.env-interactive.open .env-flap-wrap{transform:rotateX(-175deg)}
+.env-open-content{overflow:hidden;max-height:0;opacity:0;transition:max-height .55s .3s ease,opacity .4s .38s ease;display:flex;flex-direction:column;align-items:center;gap:8px;padding:0 20px;text-align:center;pointer-events:none}
+.env-interactive.open .env-open-content{max-height:260px;opacity:1;pointer-events:auto}
+.env-mailbox-icon{width:40px;height:40px;color:var(--gold);margin-top:10px}
+.env-title{font-family:'Cormorant Garamond',serif;font-size:26px;color:var(--cream);letter-spacing:.5px;line-height:1.2}
+.env-desc{font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;color:var(--cream);opacity:.9;line-height:1.75}
+.env-tap-hint{font-family:'Lato',sans-serif;font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold-dark);opacity:.9;margin-top:8px;transition:opacity .3s}
+.env-interactive.open ~ .env-tap-hint{opacity:0;pointer-events:none}
+@media(prefers-reduced-motion:reduce){.env-body{animation:none}}
+
+/* -- DRESS CODE: figuras de dama y caballero ------------ */
+.dc-figures{display:flex;align-items:stretch;justify-content:center;gap:0;margin-top:18px;max-width:420px;margin-left:auto;margin-right:auto}
+.dc-fig{flex:1;display:flex;flex-direction:column;align-items:center;padding:14px 8px}
+.dc-divider{width:1px;flex-shrink:0;margin:10px 0;background:linear-gradient(to bottom,transparent,var(--gold) 18%,var(--gold) 82%,transparent)}
+.dc-svg{height:190px;width:auto;object-fit:contain;filter:drop-shadow(0 6px 14px rgba(70,82,0,.22))}
+.dc-fig-name{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600;color:var(--cream);letter-spacing:3px;margin-top:14px;text-transform:uppercase}
+.dc-fig-hint{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;color:var(--gold-dark);margin-top:6px;text-align:center;line-height:1.5}
+
+/* -- PALETA: circulos mas pequenos con brillo que recorre */
+.palette{gap:14px}
+.pal-sw{
+  width:44px;height:44px;border-radius:50%;position:relative;overflow:hidden;
+  box-shadow:0 3px 10px rgba(70,82,0,.28), inset 0 -3px 7px rgba(0,0,0,.22), inset 0 2px 5px rgba(255,255,255,.3);
+  border:1px solid rgba(255,255,255,.35);
+}
+.pal-sw::before{
+  content:'';position:absolute;top:-60%;left:-120%;width:80%;height:260%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.65),transparent);
+  transform:rotate(22deg);
+  animation:palShine 4.2s ease-in-out infinite;
+}
+.pal-item:nth-child(2) .pal-sw::before{animation-delay:.5s}
+.pal-item:nth-child(3) .pal-sw::before{animation-delay:1s}
+.pal-item:nth-child(4) .pal-sw::before{animation-delay:1.5s}
+.pal-item:nth-child(5) .pal-sw::before{animation-delay:2s}
+@keyframes palShine{
+  0%,72%{left:-120%}
+  100%{left:150%}
+}
+.pal-sw::after{
+  content:'';position:absolute;top:14%;left:20%;width:34%;height:24%;
+  border-radius:50%;background:rgba(255,255,255,.42);filter:blur(2px);
+}
+@media(prefers-reduced-motion:reduce){.pal-sw::before{animation:none;opacity:0}}
   </style>
 </head>
 <body>
@@ -2185,7 +2321,21 @@ section.has-sec-waves{padding-top:84px;padding-bottom:86px}
 </audio>
 
 <!-- MUSIC BTN -->
-<button class="music-btn" id="musicBtn" onclick="toggleMusic()" aria-label="Música">♪</button>
+<button class="music-btn" id="musicBtn" onclick="toggleMusic()" type="button"
+        aria-label="Reproducir o pausar la música" aria-pressed="false">
+  <span class="vinyl-tonearm" aria-hidden="true">
+    <span class="vinyl-tonearm-pivot"></span>
+    <span class="vinyl-tonearm-line"></span>
+    <span class="vinyl-tonearm-head"></span>
+  </span>
+  <span class="vinyl-spin" aria-hidden="true">
+    <span class="vinyl-disc">
+      <span class="vinyl-sheen"></span>
+      <span class="vinyl-label-text">M&amp;J<small>2026</small></span>
+      <span class="vinyl-hole"></span>
+    </span>
+  </span>
+</button>
 
 <!-- TOAST -->
 <div id="toast"></div>
@@ -2543,33 +2693,106 @@ section.has-sec-waves{padding-top:84px;padding-bottom:86px}
   <div class="gline"></div>
   <p class="gf-sub">Si deseas obsequiarnos algo especial,<br>compartimos contigo nuestras opciones.</p>
 
-  <div class="gf-card gf-bank">
-    <div class="gf-card-top">
-      <div class="gf-logo" style="background:rgba(169,104,0,.12);color:var(--gold);border-color:rgba(169,104,0,.32)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/><line x1="6" y1="15" x2="10" y2="15"/></svg></div>
-      <p class="gf-ttl" style="color:var(--gold)">Transferencia BBVA</p>
-    </div>
-    <div class="gf-bank-info">
-      <p class="gf-bk-line"><span class="gf-bk-lbl">Titular</span><span class="gf-bk-val">Margarito de Dios Reyes</span></p>
-      <p class="gf-bk-line gf-bk-clabe-wrap">
-        <span class="gf-bk-lbl">CLABE</span>
-        <span class="gf-bk-clabe" id="clabeNum">4152 3144 9295 0970</span>
-      </p>
-      <button type="button" onclick="copyClabe()" class="btn gf-copy">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-        Copiar CLABE
-      </button>
+  <!-- Regalo que se abre con confeti y revela los datos bancarios -->
+  <div class="gbx" id="giftBox">
+    <button type="button" class="gbx-present" id="giftBtn" aria-label="Abrir la mesa de regalos" aria-expanded="false" aria-controls="giftLinks">
+      <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <linearGradient id="gbxBody" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#5c6a12"/><stop offset="100%" stop-color="#2f3800"/>
+          </linearGradient>
+          <linearGradient id="gbxTop" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#77872a"/><stop offset="100%" stop-color="#3d4a00"/>
+          </linearGradient>
+          <linearGradient id="gbxRib" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#e2b45c"/><stop offset="100%" stop-color="#a96800"/>
+          </linearGradient>
+        </defs>
+        <rect x="22" y="52" width="76" height="54" rx="6" fill="url(#gbxBody)"/>
+        <rect x="54" y="52" width="12" height="54" fill="url(#gbxRib)" opacity=".9"/>
+        <g class="gbx-lid">
+          <rect x="16" y="40" width="88" height="17" rx="5" fill="url(#gbxTop)"/>
+          <rect x="54" y="40" width="12" height="17" fill="url(#gbxRib)" opacity=".9"/>
+          <path d="M60 41 C48 22 30 26 39 41 Z" fill="url(#gbxRib)"/>
+          <path d="M60 41 C72 22 90 26 81 41 Z" fill="url(#gbxRib)"/>
+          <circle cx="60" cy="40" r="6" fill="url(#gbxRib)"/>
+        </g>
+      </svg>
+    </button>
+    <div class="gbx-confetti" id="giftConfetti" aria-hidden="true"></div>
+    <p class="gbx-tap">Toca el regalo</p>
+  </div>
+
+  <div class="gift-links" id="giftLinks" hidden>
+    <div class="gf-card gf-bank">
+      <div class="gf-card-top">
+        <div class="gf-logo" style="background:rgba(169,104,0,.12);color:var(--gold);border-color:rgba(169,104,0,.32)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/><line x1="6" y1="15" x2="10" y2="15"/></svg></div>
+        <p class="gf-ttl" style="color:var(--gold)">Transferencia BBVA</p>
+      </div>
+      <div class="gf-bank-info">
+        <p class="gf-bk-line"><span class="gf-bk-lbl">Titular</span><span class="gf-bk-val">Margarito de Dios Reyes</span></p>
+        <p class="gf-bk-line gf-bk-clabe-wrap">
+          <span class="gf-bk-lbl">CLABE</span>
+          <span class="gf-bk-clabe" id="clabeNum">4152 3144 9295 0970</span>
+        </p>
+        <button type="button" onclick="copyClabe()" class="btn gf-copy">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          Copiar CLABE
+        </button>
+      </div>
     </div>
   </div>
 
-  <div class="gf-card gf-bank" style="margin-top:18px">
-    <div class="gf-card-top">
-      <div class="gf-logo" style="background:rgba(108,122,67,.12);color:var(--olive-accent);border-color:rgba(108,122,67,.32)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l9 6 9-6"/><rect x="3" y="6" width="18" height="14" rx="2"/></svg></div>
-      <p class="gf-ttl" style="color:var(--olive-accent)">Lluvia de Sobres</p>
-    </div>
-    <div class="gf-bank-info">
-      <p class="gf-nt">Si lo prefieres, trae tu sobre el día de la boda.</p>
-    </div>
+  <!-- Lluvia de sobres: sobre interactivo que se abre al tocarlo -->
+  <div class="env-wrap">
+    <button class="env-interactive" type="button" aria-label="Lluvia de sobres — toca para abrir" aria-expanded="false">
+      <div class="env-body">
+        <svg class="env-svg" viewBox="0 0 260 200" preserveAspectRatio="none" aria-hidden="true">
+          <defs>
+            <linearGradient id="mj-env-fill" x1="0" y1="1" x2="1" y2="0">
+              <stop offset="0%" stop-color="#f3efdd"/>
+              <stop offset="100%" stop-color="#FAF6E7"/>
+            </linearGradient>
+          </defs>
+          <rect x="18" y="52" width="224" height="132" rx="10"
+                fill="url(#mj-env-fill)" stroke="rgba(169,104,0,.45)" stroke-width="1.4"/>
+          <path d="M18 184 L130 110 L242 184" stroke="rgba(169,104,0,.32)" stroke-width="1" fill="none"/>
+          <line x1="90"  y1="30" x2="90"  y2="20" stroke="#a96800" stroke-width="1.3" stroke-linecap="round" opacity=".55"/>
+          <line x1="130" y1="24" x2="130" y2="14" stroke="#a96800" stroke-width="1.3" stroke-linecap="round" opacity=".7"/>
+          <line x1="170" y1="30" x2="170" y2="20" stroke="#a96800" stroke-width="1.3" stroke-linecap="round" opacity=".55"/>
+          <line x1="110" y1="18" x2="110" y2="10" stroke="#6c7a43" stroke-width="1"   stroke-linecap="round" opacity=".45"/>
+          <line x1="150" y1="18" x2="150" y2="10" stroke="#6c7a43" stroke-width="1"   stroke-linecap="round" opacity=".45"/>
+          <circle cx="130" cy="118" r="16" fill="rgba(115,14,0,.14)" stroke="rgba(115,14,0,.5)" stroke-width="1"/>
+          <text x="130" y="123" text-anchor="middle" font-family="Georgia,serif" font-size="11" fill="#730e00" opacity=".9">M&amp;J</text>
+        </svg>
+        <div class="env-flap-wrap" aria-hidden="true">
+          <svg viewBox="0 0 224 86" preserveAspectRatio="none" style="width:100%;height:100%">
+            <defs>
+              <linearGradient id="mj-flap-fill" x1="0" y1="1" x2="1" y2="0">
+                <stop offset="0%" stop-color="#e8dfbe"/>
+                <stop offset="100%" stop-color="#f7f2df"/>
+              </linearGradient>
+            </defs>
+            <path d="M0 0 L112 86 L224 0 Z"
+                  fill="url(#mj-flap-fill)" stroke="rgba(169,104,0,.45)" stroke-width="1.5" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+      <div class="env-open-content" aria-live="polite">
+        <svg class="env-mailbox-icon" viewBox="0 0 52 52" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <rect x="8" y="22" width="36" height="24" rx="5"/>
+          <path d="M8 30 Q26 38 44 30"/>
+          <rect x="18" y="8" width="16" height="16" rx="2"/>
+          <path d="M18 8 Q26 3 34 8"/>
+          <rect x="20" y="28" width="12" height="2.5" rx="1.25" fill="currentColor" stroke="none" opacity=".4"/>
+        </svg>
+        <p class="env-title">Lluvia de Sobres</p>
+        <p class="env-desc">El día de la boda habrá un buzón<br>donde podrás depositar tu sobre.</p>
+      </div>
+    </button>
+    <p class="env-tap-hint">Toca el sobre</p>
   </div>
+
 </section>
 
 
@@ -2603,6 +2826,22 @@ section.has-sec-waves{padding-top:84px;padding-bottom:86px}
   <h2 class="ttl">Código de Vestimenta</h2>
   <div class="gline"></div>
   <p class="dc-sub"><em style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--gold);display:block;margin-bottom:10px">Formal · Etiqueta de Jardín</em>Nuestra celebración será al aire libre.<br>Vistan formal para vivir esta noche en grande;<br>si quieren, inspírense en nuestra paleta.</p>
+  <div class="dc-figures">
+    <div class="dc-fig">
+      <img src="assets/dama.png" alt="Dama con vestido largo formal" class="dc-svg" loading="lazy">
+      <div class="dc-fig-name">Damas</div>
+      <div class="dc-fig-hint">Vestido largo<br>Calzado cómodo para jardín</div>
+    </div>
+
+    <div class="dc-divider" aria-hidden="true"></div>
+
+    <div class="dc-fig">
+      <img src="assets/caballero.png" alt="Caballero con traje formal" class="dc-svg" loading="lazy">
+      <div class="dc-fig-name">Caballeros</div>
+      <div class="dc-fig-hint">Traje formal<br>Corbata o moño</div>
+    </div>
+  </div>
+
   <div class="palette" id="palette">
     <div class="pal-item"><div class="pal-sw" style="background:#6f663c"></div><p class="pal-nm">Olivo</p></div>
     <div class="pal-item"><div class="pal-sw" style="background:#38571a"></div><p class="pal-nm">Verde</p></div>
@@ -2692,284 +2931,6 @@ section.has-sec-waves{padding-top:84px;padding-bottom:86px}
 
 </section>
 
-
-<!-- ═══════════════ 4. CALENDAR ══════════════════════ -->
-<section id="calendar">
-  <span class="lbl">No lo olvides</span>
-  <h2 class="ttl" style="font-size:26px">Guarda la Fecha</h2>
-  <div class="gline"></div>
-  <p class="cal-sub">Agrega nuestra boda a tu calendario<br>para no perderte ni un momento.</p>
-
-  <div class="cal-month" aria-label="19 de Septiembre de 2026">
-    <p class="cal-month-title">Septiembre</p>
-    <div class="cal-grid">
-      <span class="cal-dow">Dom</span>
-      <span class="cal-dow">Lun</span>
-      <span class="cal-dow">Mar</span>
-      <span class="cal-dow">Mié</span>
-      <span class="cal-dow">Jue</span>
-      <span class="cal-dow">Vie</span>
-      <span class="cal-dow">Sáb</span>
-      <span class="cal-day empty"></span>
-      <span class="cal-day empty"></span>
-      <span class="cal-day">1</span>
-      <span class="cal-day">2</span>
-      <span class="cal-day">3</span>
-      <span class="cal-day">4</span>
-      <span class="cal-day">5</span>
-      <span class="cal-day">6</span>
-      <span class="cal-day">7</span>
-      <span class="cal-day">8</span>
-      <span class="cal-day">9</span>
-      <span class="cal-day">10</span>
-      <span class="cal-day">11</span>
-      <span class="cal-day">12</span>
-      <span class="cal-day">13</span>
-      <span class="cal-day">14</span>
-      <span class="cal-day">15</span>
-      <span class="cal-day">16</span>
-      <span class="cal-day">17</span>
-      <span class="cal-day">18</span>
-      <span class="cal-day is-today">19</span>
-      <span class="cal-day">20</span>
-      <span class="cal-day">21</span>
-      <span class="cal-day">22</span>
-      <span class="cal-day">23</span>
-      <span class="cal-day">24</span>
-      <span class="cal-day">25</span>
-      <span class="cal-day">26</span>
-      <span class="cal-day">27</span>
-      <span class="cal-day">28</span>
-      <span class="cal-day">29</span>
-      <span class="cal-day">30</span>
-    </div>
-    <p class="cal-foot">Sábado · El gran día</p>
-  </div>
-
-  <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Boda+de+Jovana+%26+Margarito&dates=20260919T180000/20260920T020000&details=Recepci%C3%B3n+6:00+PM+en+MAERE+Sal%C3%B3n+%26+Jard%C3%ADn%2C+Apodaca%2C+Nuevo+Le%C3%B3n.&location=MAERE+Sal%C3%B3n+%26+Jard%C3%ADn%2C+Blvd.+Juli%C3%A1n+Trevi%C3%B1o+Elizondo+510%2C+Los+Prados+Residencial%2C+66640+Apodaca%2C+N.L."
-     target="_blank" rel="noopener" id="calBtn"
-     class="btn btn-gold" style="max-width:310px;margin:0 auto;display:flex;opacity:1">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-    Agregar a Google Calendar
-  </a>
-</section>
-
-
-<!-- ═══════════════ 5. ITINERARIO ════════════════════ -->
-<section id="itinerary">
-  <span class="lbl">La noche de bodas</span>
-  <h2 class="ttl">Itinerario</h2>
-  <div class="gline"></div>
-  <div class="timeline" id="tlWrap">
-    <svg class="tl-svg" id="tlSvg" preserveAspectRatio="none" aria-hidden="true">
-      <defs>
-        <linearGradient id="tlGrad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%"   stop-color="#465200" stop-opacity=".55"/>
-          <stop offset="18%"  stop-color="#a96800" stop-opacity="1"/>
-          <stop offset="40%"  stop-color="#6c7a43" stop-opacity="1"/>
-          <stop offset="60%"  stop-color="#a96800" stop-opacity="1"/>
-          <stop offset="82%"  stop-color="#465200" stop-opacity="1"/>
-          <stop offset="100%" stop-color="#a96800" stop-opacity=".55"/>
-        </linearGradient>
-        <filter id="tlGlow" x="-30%" y="-30%" width="160%" height="160%">
-          <feGaussianBlur stdDeviation="2.5" result="b1"/>
-          <feMerge>
-            <feMergeNode in="b1"/>
-            <feMergeNode in="SourceGraphic"/>
-          </feMerge>
-        </filter>
-      </defs>
-      <path class="tl-svg-bg"   id="tlPathBg"/>
-      <path class="tl-svg-path" id="tlPath"/>
-    </svg>
-
-    <div class="tl-row" data-side="left">
-      <div class="tl-orn"></div><div class="tl-pulse"></div><div class="tl-dot"></div>
-      <div class="tl-row-inner"><p class="tl-t">6:00 PM</p><p class="tl-ev">Recepción</p><p class="tl-de">MAERE Salón &amp; Jardín</p></div>
-    </div>
-    <div class="tl-row" data-side="right">
-      <div class="tl-orn"></div><div class="tl-pulse"></div><div class="tl-dot"></div>
-      <div class="tl-row-inner"><p class="tl-t">Por confirmar</p><p class="tl-ev">Cena</p><p class="tl-de">Compartiremos el horario pronto</p></div>
-    </div>
-    <div class="tl-row" data-side="left">
-      <div class="tl-orn"></div><div class="tl-pulse"></div><div class="tl-dot"></div>
-      <div class="tl-row-inner"><p class="tl-t">Por confirmar</p><p class="tl-ev">Nuestro Vals</p><p class="tl-de">Primer baile de esposos</p></div>
-    </div>
-    <div class="tl-row" data-side="right">
-      <div class="tl-orn"></div><div class="tl-pulse"></div><div class="tl-dot"></div>
-      <div class="tl-row-inner"><p class="tl-t">Por confirmar</p><p class="tl-ev">Brindis</p><p class="tl-de">Por los novios</p></div>
-    </div>
-    <div class="tl-row" data-side="left">
-      <div class="tl-orn"></div><div class="tl-pulse"></div><div class="tl-dot"></div>
-      <div class="tl-row-inner"><p class="tl-t">Por confirmar</p><p class="tl-ev">Apertura de Pista</p><p class="tl-de">¡Todos a bailar!</p></div>
-    </div>
-  </div>
-</section>
-
-
-<!-- ═══════════════ 7. MESA DE REGALOS ═══════════════ -->
-<section id="gifts">
-  <span class="lbl">Tu presencia es nuestro mejor regalo</span>
-  <h2 class="ttl">Mesa de Regalos</h2>
-  <div class="gline"></div>
-  <p class="gf-sub">Si deseas obsequiarnos algo especial,<br>compartimos contigo nuestras opciones.</p>
-
-  <div class="gf-card gf-bank">
-    <div class="gf-card-top">
-      <div class="gf-logo" style="background:rgba(169,104,0,.12);color:var(--gold);border-color:rgba(169,104,0,.32)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/><line x1="6" y1="15" x2="10" y2="15"/></svg></div>
-      <p class="gf-ttl" style="color:var(--gold)">Transferencia BBVA</p>
-    </div>
-    <div class="gf-bank-info">
-      <p class="gf-bk-line"><span class="gf-bk-lbl">Titular</span><span class="gf-bk-val">Margarito de Dios Reyes</span></p>
-      <p class="gf-bk-line gf-bk-clabe-wrap">
-        <span class="gf-bk-lbl">CLABE</span>
-        <span class="gf-bk-clabe" id="clabeNum">4152 3144 9295 0970</span>
-      </p>
-      <button type="button" onclick="copyClabe()" class="btn gf-copy">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-        Copiar CLABE
-      </button>
-    </div>
-  </div>
-
-  <div class="gf-card gf-bank" style="margin-top:18px">
-    <div class="gf-card-top">
-      <div class="gf-logo" style="background:rgba(108,122,67,.12);color:var(--olive-accent);border-color:rgba(108,122,67,.32)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l9 6 9-6"/><rect x="3" y="6" width="18" height="14" rx="2"/></svg></div>
-      <p class="gf-ttl" style="color:var(--olive-accent)">Lluvia de Sobres</p>
-    </div>
-    <div class="gf-bank-info">
-      <p class="gf-nt">Si lo prefieres, trae tu sobre el día de la boda.</p>
-    </div>
-  </div>
-</section>
-
-
-<!-- ═══════════════ 8. ÁLBUM COMPARTIDO ══════════════ -->
-<section id="album">
-  <span class="lbl">Captura cada momento</span>
-  <h2 class="ttl">Álbum Compartido</h2>
-  <div class="gline"></div>
-  <p class="alb-sub">Escanea el código QR y sube las fotos<br>que tomes durante el evento.</p>
-
-  <div class="alb-qr-wrap">
-    <div class="alb-qr-frame">
-      <img src="https://api.qrserver.com/v1/create-qr-code/?size=320x320&color=465200&bgcolor=FAF6E7&data=https%3A%2F%2Fphotos.app.goo.gl%2Fboda-jovana-y-margarito"
-           alt="QR álbum compartido Jovana y Margarito" class="alb-qr" loading="lazy">
-    </div>
-    <p class="alb-scan">Escanea con la cámara</p>
-  </div>
-
-  <a href="https://photos.app.goo.gl/boda-jovana-y-margarito" target="_blank" rel="noopener" class="btn btn-rose alb-btn">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-    Abrir álbum
-  </a>
-
-  <p class="alb-hint">Compartirás tus fotos con los demás invitados.<br>Podrás ver el álbum completo después del evento.</p>
-</section>
-
-
-<!-- ═══════════════ 9. DRESS CODE ════════════════════ -->
-<section id="dresscode">
-  <span class="lbl">Vestimenta</span>
-  <h2 class="ttl">Código de Vestimenta</h2>
-  <div class="gline"></div>
-  <p class="dc-sub"><em style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--gold);display:block;margin-bottom:10px">Formal · Etiqueta de Jardín</em>Nuestra celebración será al aire libre.<br>Vistan formal para vivir esta noche en grande;<br>si quieren, inspírense en nuestra paleta.</p>
-  <div class="palette" id="palette">
-    <div class="pal-item"><div class="pal-sw" style="background:#6f663c"></div><p class="pal-nm">Olivo</p></div>
-    <div class="pal-item"><div class="pal-sw" style="background:#38571a"></div><p class="pal-nm">Verde</p></div>
-    <div class="pal-item"><div class="pal-sw" style="background:#c88700"></div><p class="pal-nm">Ámbar</p></div>
-    <div class="pal-item"><div class="pal-sw" style="background:#b65700"></div><p class="pal-nm">Cobre</p></div>
-    <div class="pal-item"><div class="pal-sw" style="background:#6d0400"></div><p class="pal-nm">Vino</p></div>
-  </div>
-  <div class="dc-note" id="dcNote">
-    <strong>Por favor evitar:</strong>
-    El color blanco — está reservado para la novia — y el rojo encendido.
-  </div>
-</section>
-
-
-<!-- ═══════════════ 10. FAMILIA · CONSTELACIÓN DE MEDALLONES ═══════════════ -->
-<section id="family">
-  <span class="lbl">Con amor de</span>
-  <h2 class="ttl">Padres y Padrinos</h2>
-  <div class="gline"></div>
-
-  <div class="fam-grove" id="famGrove">
-    <div class="fam-thread" aria-hidden="true"></div>
-
-    <p class="fam-group-title">Nuestros Padres</p>
-
-    <div class="fam-node">
-      <div class="fam-medal">
-        <div class="fam-medal-orbit"></div>
-        <span class="fam-medal-icon">
-          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M24 8 V40" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-            <path d="M24 14 C18 14 14 18 14 22 C18 22 22 19 24 16 Z" fill="currentColor" opacity=".82"/>
-            <path d="M24 14 C30 14 34 18 34 22 C30 22 26 19 24 16 Z" fill="currentColor" opacity=".82"/>
-            <path d="M24 22 C19 22 15 25 15 29 C19 29 22.5 26.5 24 24 Z" fill="currentColor" opacity=".7"/>
-            <path d="M24 22 C29 22 33 25 33 29 C29 29 25.5 26.5 24 24 Z" fill="currentColor" opacity=".7"/>
-            <path d="M24 30 C20 30 17 32.5 17 35.5 C20.5 35.5 23 33.5 24 31.5 Z" fill="currentColor" opacity=".6"/>
-            <path d="M24 30 C28 30 31 32.5 31 35.5 C27.5 35.5 25 33.5 24 31.5 Z" fill="currentColor" opacity=".6"/>
-            <circle cx="24" cy="8" r="2" fill="currentColor"/>
-          </svg>
-        </span>
-      </div>
-      <p class="fam-role">Padres del Novio</p>
-      <p class="fam-names">Por confirmar</p>
-    </div>
-
-    <div class="fam-node">
-      <div class="fam-medal">
-        <div class="fam-medal-orbit"></div>
-        <span class="fam-medal-icon">
-          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M24 8 V40" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-            <path d="M24 14 C18 14 14 18 14 22 C18 22 22 19 24 16 Z" fill="currentColor" opacity=".82"/>
-            <path d="M24 14 C30 14 34 18 34 22 C30 22 26 19 24 16 Z" fill="currentColor" opacity=".82"/>
-            <path d="M24 22 C19 22 15 25 15 29 C19 29 22.5 26.5 24 24 Z" fill="currentColor" opacity=".7"/>
-            <path d="M24 22 C29 22 33 25 33 29 C29 29 25.5 26.5 24 24 Z" fill="currentColor" opacity=".7"/>
-            <path d="M24 30 C20 30 17 32.5 17 35.5 C20.5 35.5 23 33.5 24 31.5 Z" fill="currentColor" opacity=".6"/>
-            <path d="M24 30 C28 30 31 32.5 31 35.5 C27.5 35.5 25 33.5 24 31.5 Z" fill="currentColor" opacity=".6"/>
-            <circle cx="24" cy="8" r="2" fill="currentColor"/>
-          </svg>
-        </span>
-      </div>
-      <p class="fam-role">Padres de la Novia</p>
-      <p class="fam-names">Arcelia E. Delgado Cedeño<span class="fam-amp">&amp;</span>Oscar A. Ramírez Betancourth</p>
-    </div>
-
-  </div>
-
-  <h2 class="ttl" style="margin-top:32px">Nuestros Padrinos</h2>
-  <div class="gline"></div>
-
-  <div class="padrinos-carousel">
-    <button class="padrinos-arrow prev" aria-label="Anterior"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
-    <button class="padrinos-arrow next" aria-label="Siguiente"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
-    <div class="padrinos-viewport">
-      <div class="padrinos-track" id="padrinosTrack">
-        <div class="padrino-slide">
-          <div class="padrino-icon"><svg viewBox="0 0 64 64"><circle cx="26" cy="34" r="13"/><circle cx="40" cy="34" r="13"/></svg></div>
-          <div class="padrino-rol">Nuestros Padrinos</div>
-          <p class="padrino-names">Por confirmar</p>
-        </div>
-      </div>
-    </div>
-    <div class="padrinos-dots" id="padrinosDots">
-      <button class="active" aria-label="Padrino 1"></button>
-      <button aria-label="Padrino 2"></button>
-      <button aria-label="Padrino 3"></button>
-      <button aria-label="Padrino 4"></button>
-      <button aria-label="Padrino 5"></button>
-      <button aria-label="Padrino 6"></button>
-      <button aria-label="Padrino 7"></button>
-      <button aria-label="Padrino 8"></button>
-      <button aria-label="Padrino 9"></button>
-    </div>
-  </div>
-
-</section>
 
 
 <!-- ═══════════════ 12. RSVP ═════════════════════════ -->
@@ -3638,9 +3599,10 @@ const mBtn = document.getElementById('musicBtn');
 let playing = false;
 
 function toggleMusic() {
-  if (playing) { aud.pause(); mBtn.innerHTML='♪'; mBtn.classList.remove('on'); }
-  else { aud.play().catch(()=>{}); mBtn.innerHTML='♬'; mBtn.classList.add('on'); }
+  if (playing) { aud.pause(); mBtn.classList.remove('on'); }
+  else { aud.play().catch(()=>{}); mBtn.classList.add('on'); }
   playing = !playing;
+  mBtn.setAttribute('aria-pressed', playing ? 'true' : 'false');
 }
 
 /* ── RSVP · PANEL DE INVITADOS (formato boda-jennifer) ── */
@@ -3979,6 +3941,70 @@ function toast(msg) {
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 3000);
 }
+
+/* -- MESA DE REGALOS: la caja se abre con confeti ------- */
+(function(){
+  var box   = document.getElementById('giftBox');
+  var btn   = document.getElementById('giftBtn');
+  var conf  = document.getElementById('giftConfetti');
+  var links = document.getElementById('giftLinks');
+  if(!box || !btn || !links) return;
+
+  function abrir(){
+    if(box.classList.contains('opened')) return;
+    btn.classList.add('shake');
+    btn.setAttribute('aria-expanded','true');
+
+    setTimeout(function(){
+      box.classList.add('opened');
+
+      var colors = ['#465200','#6c7a43','#a96800','#c88700','#730e00','#D4C5B2','#FAF6E7'];
+      var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if(!reduced && window.gsap){
+        for(var i=0;i<34;i++){
+          var p = document.createElement('div');
+          p.className = 'gbx-confetti-piece';
+          p.style.background = colors[i % colors.length];
+          var sz = 5 + Math.random()*7;
+          p.style.width = sz+'px'; p.style.height = sz+'px';
+          p.style.borderRadius = Math.random() > .5 ? '50%' : '2px';
+          conf.appendChild(p);
+          var ang = Math.random()*Math.PI*2;
+          var d   = 55 + Math.random()*105;
+          gsap.fromTo(p,
+            {opacity:1,x:0,y:0,scale:1,rotation:0},
+            {x:Math.cos(ang)*d, y:Math.sin(ang)*d - 46, opacity:0, scale:.2,
+             rotation:Math.random()*720-360, duration:.9+Math.random()*.5,
+             ease:'power2.out', delay:Math.random()*.12,
+             onComplete:function(){ var t=this.targets()[0]; if(t && t.remove) t.remove(); }});
+        }
+      }
+
+      links.hidden = false;
+      if(window.gsap){
+        gsap.fromTo(links.children,
+          {opacity:0,y:22},
+          {opacity:1,y:0,duration:.7,stagger:.12,ease:'power2.out',delay:.15});
+      }
+      if(window.ScrollTrigger) ScrollTrigger.refresh();
+    }, 480);
+
+    setTimeout(function(){ btn.style.display = 'none'; }, 1200);
+  }
+
+  btn.addEventListener('click', abrir);
+})();
+
+/* -- LLUVIA DE SOBRES: abre y cierra el sobre ----------- */
+(function(){
+  var btn = document.querySelector('.env-interactive');
+  if(!btn) return;
+  btn.addEventListener('click', function(){
+    var isOpen = btn.classList.toggle('open');
+    btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    if(window.ScrollTrigger) ScrollTrigger.refresh();
+  });
+})();
 </script>
 </body>
 </html>
