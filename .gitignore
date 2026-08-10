@@ -15,3 +15,4 @@ _src/*.mp3
 _src/*.npy
 
 .env*
+_src/chk/
